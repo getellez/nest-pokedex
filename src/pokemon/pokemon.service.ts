@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -12,6 +13,7 @@ import { Pokemon } from './entities/pokemon.entity';
 
 @Injectable()
 export class PokemonService {
+  private readonly logger = new Logger(PokemonService.name);
   constructor(
     @InjectModel(Pokemon.name)
     private readonly pokemonModel: Model<Pokemon>,
@@ -28,6 +30,8 @@ export class PokemonService {
   }
 
   findAll() {
+    this.logger.log(`Retrieve all Pokemon`);
+
     return `This action returns all pokemon`;
   }
 
@@ -65,8 +69,9 @@ export class PokemonService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(term: string) {
+    const pokemon = await this.findOne(term);
+    await pokemon.deleteOne();
   }
 
   private handleExceptions(error: any) {
