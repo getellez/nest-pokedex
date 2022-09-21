@@ -23,7 +23,7 @@ export class PokemonService {
       const pokemon = await this.pokemonModel.create(createPokemonDto);
       return pokemon;
     } catch (error) {
-      this.handleException(error);
+      this.handleExceptions(error);
     }
   }
 
@@ -61,7 +61,7 @@ export class PokemonService {
       await pokemon.updateOne(updatePokemonDto);
       return { ...pokemon.toJSON(), ...updatePokemonDto };
     } catch (error) {
-      this.handleException(error);
+      this.handleExceptions(error);
     }
   }
 
@@ -69,7 +69,7 @@ export class PokemonService {
     return `This action removes a #${id} pokemon`;
   }
 
-  private handleException(error: any) {
+  private handleExceptions(error: any) {
     if (error.code === 11000) {
       throw new BadRequestException(
         `Pokemon already exists in DB - ${JSON.stringify(error.keyValue)}`,
