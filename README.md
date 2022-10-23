@@ -21,7 +21,11 @@ npm i -g @nestjs/cli
 ```
    docker-compose up -d
 ```
-
+5. Crear archivo __.env__ a partir del archivo __.env.template__
+6. Ejecutar la aplicación en desarrollo:
+```
+npm run start:dev
+```
 # Stack
 * MongoDB
 * Nest
